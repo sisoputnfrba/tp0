@@ -9,8 +9,6 @@
 
 int main(int argc, char** argv)
 {
-	iniciar_cliente();
-
 	//Para hablar de consola y los parametros del main!
 	t_config* archivo_config = config_create(argv[1]);
 	t_log* logger = log_create("logs.log", "Cliente", 1, LOG_LEVEL_DEBUG);
@@ -22,18 +20,17 @@ int main(int argc, char** argv)
 	char* puerto = config_get_string_value(archivo_config, "PUERTO");
 
 
-	conectar_cliente(ip, puerto);
+	int fd = conectar_cliente(ip, puerto);
 
 
 	char *clave = NULL, *valor = NULL;
 
 	clave = readline(">");
 
-	//levantar claves con readline del archivo y que el servidor muestre los valores de a uno
 	while(clave[0] != '0')
 	{
 		valor = config_get_string_value(archivo_config, clave);
-		enviar_mensaje(valor);
+		enviar_mensaje(valor, fd);
 		free(clave);
 		clave = readline(">");
 	}
@@ -51,9 +48,9 @@ int main(int argc, char** argv)
 	agregar_a_paquete(paquete, "Hernan", 7);
 	agregar_a_paquete(paquete, "Alf", 4);
 
-	enviar_paquete(paquete);
+	enviar_paquete(paquete, fd);
 
-	terminar_cliente();
+	terminar_cliente(fd);
 	config_destroy(archivo_config);
 	log_destroy(logger);
 }

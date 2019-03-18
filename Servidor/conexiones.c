@@ -7,8 +7,10 @@
 
 #include"conexiones.h"
 
-extern void iniciar_servidor(void)
+int iniciar_servidor(void)
 {
+	int socket_servidor;
+
     struct addrinfo hints, *servinfo, *p;
 
     memset(&hints, 0, sizeof(hints));
@@ -20,67 +22,70 @@ extern void iniciar_servidor(void)
 
     for (p=servinfo; p != NULL; p = p->ai_next)
     {
-        if ((g_socket_servidor = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1)
+        if ((socket_servidor = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1)
             continue;
 
-        if (bind(g_socket_servidor, p->ai_addr, p->ai_addrlen) == -1) {
-            close(g_socket_servidor);
+        if (bind(socket_servidor, p->ai_addr, p->ai_addrlen) == -1) {
+            close(socket_servidor);
             continue;
         }
         break;
     }
 
-	listen(g_socket_servidor, SOMAXCONN);
+	listen(socket_servidor, SOMAXCONN);
 
     freeaddrinfo(servinfo);
 
     log_trace(logger, "Listo para escuchar a mi cliente");
+
+    return socket_servidor;
 }
 
-extern void esperar_cliente(void)
+int esperar_cliente(int socket_servidor)
 {
 	struct sockaddr_in dir_cliente;
 	int tam_direccion = sizeof(struct sockaddr_in);
 
-	g_socket_cliente = accept(g_socket_servidor, (void*) &dir_cliente, &tam_direccion);
+	int socket_cliente = accept(socket_servidor, (void*) &dir_cliente, &tam_direccion);
 
 	log_info(logger, "Se conecto un cliente!");
+
+	return socket_cliente;
 }
 
-extern int recibir_operacion(void)
+int recibir_operacion(int socket_cliente)
 {
 	int cod_op;
-	if(recv(g_socket_cliente, &cod_op, sizeof(int), MSG_WAITALL) != 0)
+	if(recv(socket_cliente, &cod_op, sizeof(int), MSG_WAITALL) != 0)
 		return cod_op;
 	else
 	{
-		log_warning(logger, "el cliente se desconecto. Terminando servidor");
-		close(g_socket_cliente);
-		exit(0);
+		close(socket_cliente);
+		return -1;
 	}
 }
 
-static void* recibir_buffer(int* size)
+void* recibir_buffer(int* size, int socket_cliente)
 {
 	void * buffer;
 
-	recv(g_socket_cliente, size, sizeof(int), MSG_WAITALL);
+	recv(socket_cliente, size, sizeof(int), MSG_WAITALL);
 	buffer = malloc(*size);
-	recv(g_socket_cliente, buffer, *size, MSG_WAITALL);
+	recv(socket_cliente, buffer, *size, MSG_WAITALL);
 
 	return buffer;
 }
 
-extern void recibir_mensaje(void)
+void recibir_mensaje(int socket_cliente)
 {
 	int size;
-	char* buffer = recibir_buffer(&size);
+	char* buffer = recibir_buffer(&size, socket_cliente);
 	log_info(logger, "Me llego el mensaje %s", buffer);
 	free(buffer);
 }
 
 //podemos usar la lista de valores para poder hablar del for y de como recorrer la lista
-t_list* recibir_paquete(void)
+t_list* recibir_paquete(int socket_cliente)
 {
 	int size;
 	int desplazamiento = 0;
@@ -88,7 +93,7 @@ t_list* recibir_paquete(void)
 	t_list* valores = list_create();
 	int tamanio;
 
-	buffer = recibir_buffer(&size);
+	buffer = recibir_buffer(&size, socket_cliente);
 	while(desplazamiento < size)
 	{
 		memcpy(&tamanio, buffer + desplazamiento, sizeof(int));

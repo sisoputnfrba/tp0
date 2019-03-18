@@ -7,13 +7,8 @@
 
 #include"conexiones.h"
 
-static void segfault_handler(int signum)
-{
-	printf("\nSegmentation fault >:v\nHora de depurar!");
-	exit(1);
-}
 
-static void* serializar_paquete(t_paquete* paquete, int bytes)
+void* serializar_paquete(t_paquete* paquete, int bytes)
 {
 	void * magic = malloc(bytes);
 	int desplazamiento = 0;
@@ -28,12 +23,7 @@ static void* serializar_paquete(t_paquete* paquete, int bytes)
 	return magic;
 }
 
-extern void iniciar_cliente()
-{
-	signal(SIGSEGV, (void*) segfault_handler);
-}
-
-extern void conectar_cliente(char *ip, char* puerto)
+int conectar_cliente(char *ip, char* puerto)
 {
 	struct addrinfo hints;
 	struct addrinfo *server_info;
@@ -45,15 +35,17 @@ extern void conectar_cliente(char *ip, char* puerto)
 
 	getaddrinfo(ip, puerto, &hints, &server_info);
 
-	g_socket_cliente = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
+	int socket_cliente = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 
-	if(connect(g_socket_cliente, server_info->ai_addr, server_info->ai_addrlen) == -1)
+	if(connect(socket_cliente, server_info->ai_addr, server_info->ai_addrlen) == -1)
 		printf("error");
 
 	freeaddrinfo(server_info);
+
+	return socket_cliente;
 }
 
-extern void enviar_mensaje(char* mensaje)
+void enviar_mensaje(char* mensaje, int socket_cliente)
 {
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 
@@ -67,7 +59,7 @@ extern void enviar_mensaje(char* mensaje)
 
 	void* a_enviar = serializar_paquete(paquete, bytes);
 
-	send(g_socket_cliente, a_enviar, bytes, 0);
+	send(socket_cliente, a_enviar, bytes, 0);
 
 	free(a_enviar);
 	free(paquete->buffer->stream);
@@ -77,9 +69,8 @@ extern void enviar_mensaje(char* mensaje)
 
 
 //la idea aca es que el malloc no este para que reviente y lleguemos aca con el debugger, y hablar de malloc y debug. Ahi viene la señal que prometi para el mensaje bonito :P
-extern t_paquete* crear_paquete(void)
+t_paquete* crear_paquete_bien(void)
 {
-	//Me falta un malloc!
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	paquete->codigo_operacion = PAQUETE;
 	paquete->buffer = malloc(sizeof(t_buffer));
@@ -88,7 +79,18 @@ extern t_paquete* crear_paquete(void)
 	return paquete;
 }
 
-extern void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio)
+t_paquete* crear_paquete(void)
+{
+	//Me falta un malloc!
+	t_paquete* paquete;
+	paquete->codigo_operacion = PAQUETE;
+	paquete->buffer = malloc(sizeof(t_buffer));
+	paquete->buffer->size = 0;
+	paquete->buffer->stream = NULL;
+	return paquete;
+}
+
+void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio)
 {
 	paquete->buffer->stream = realloc(paquete->buffer->stream, paquete->buffer->size + tamanio + sizeof(int));
 
@@ -98,12 +100,12 @@ extern void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio)
 	paquete->buffer->size += tamanio + sizeof(int);
 }
 
-extern void enviar_paquete(t_paquete* paquete)
+void enviar_paquete(t_paquete* paquete, int socket_cliente)
 {
 	int bytes = paquete->buffer->size + 2*sizeof(int);
 	void* a_enviar = serializar_paquete(paquete, bytes);
 
-	send(g_socket_cliente, a_enviar, bytes, 0);
+	send(socket_cliente, a_enviar, bytes, 0);
 
 	free(a_enviar);
 	free(paquete->buffer->stream);
@@ -111,7 +113,7 @@ extern void enviar_paquete(t_paquete* paquete)
 	free(paquete);
 }
 
-extern void terminar_cliente(void)
+void terminar_cliente(int socket_cliente)
 {
-	close(g_socket_cliente);
+	close(socket_cliente);
 }

@@ -34,17 +34,13 @@ typedef struct
 	t_buffer* buffer;
 } t_paquete;
 
-static int g_socket_cliente;
+void* serializar_paquete(t_paquete*, int);
 
-static void segfault_handler();
-static void* serializar_paquete(t_paquete*, int);
-
-extern void iniciar_cliente(void);
-extern void conectar_cliente(char* ip, char* puerto);
-extern void enviar_mensaje(char* mensaje);
-extern t_paquete* crear_paquete(void);
-extern void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio);
-extern void enviar_paquete(t_paquete* paquete);
-extern void terminar_cliente(void);
+int conectar_cliente(char* ip, char* puerto);
+void enviar_mensaje(char* mensaje, int socket_cliente);
+t_paquete* crear_paquete(void);
+void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio);
+void enviar_paquete(t_paquete* paquete, int socket_cliente);
+void terminar_cliente(int socket_cliente);
 
 #endif /* CONEXIONES_H_ */

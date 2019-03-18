@@ -26,16 +26,14 @@ typedef enum
 	PAQUETE
 }op_code;
 
-static int g_socket_servidor;
-static int g_socket_cliente;
 t_log* logger;
 
-static void* recibir_buffer(int*);
+void* recibir_buffer(int*, int);
 
-extern void iniciar_servidor(void);
-extern void esperar_cliente(void);
-t_list* recibir_paquete(void);
-extern void recibir_mensaje(void);
-extern int recibir_operacion(void);
+int iniciar_servidor(void);
+int esperar_cliente(int);
+t_list* recibir_paquete(int);
+void recibir_mensaje(int);
+int recibir_operacion(int);
 
 #endif /* CONEXIONES_H_ */

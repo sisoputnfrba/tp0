@@ -16,23 +16,27 @@ int main(void)
 
 	logger = log_create("log.log", "Servidor", 1, LOG_LEVEL_DEBUG);
 
-	iniciar_servidor();
-	esperar_cliente();
+	int server_fd = iniciar_servidor();
+	int cliente_fd = esperar_cliente(server_fd);
 
 	t_list* lista;
 	while(1)
 	{
-		int cod_op = recibir_operacion();
+		int cod_op = recibir_operacion(cliente_fd);
 		switch(cod_op)
 		{
 		case MENSAJE:
-			recibir_mensaje();
+			recibir_mensaje(cliente_fd);
 			break;
 		case PAQUETE:
-			lista = recibir_paquete();
+			lista = recibir_paquete(cliente_fd);
 			printf("Me llegaron los siguientes valores:\n");
 			list_iterate(lista, (void*) iterator);
 			break;
+		default:
+			log_error(logger, "el cliente se desconecto. Terminando servidor");
+			return EXIT_FAILURE;
 		}
 	}
+	return EXIT_SUCCESS;
 }
