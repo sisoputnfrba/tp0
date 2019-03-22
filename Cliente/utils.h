@@ -5,8 +5,8 @@
  *      Author: utnso
  */
 
-#ifndef CONEXIONES_H_
-#define CONEXIONES_H_
+#ifndef UTILS_H_
+#define UTILS_H_
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -34,13 +34,12 @@ typedef struct
 	t_buffer* buffer;
 } t_paquete;
 
-void* serializar_paquete(t_paquete*, int);
-
-int conectar_cliente(char* ip, char* puerto);
+int crear_conexion(char* ip, char* puerto);
 void enviar_mensaje(char* mensaje, int socket_cliente);
 t_paquete* crear_paquete(void);
 void agregar_a_paquete(t_paquete* paquete, void* valor, int tamanio);
 void enviar_paquete(t_paquete* paquete, int socket_cliente);
-void terminar_cliente(int socket_cliente);
+void liberar_conexion(int socket_cliente);
+void eliminar_paquete(t_paquete* paquete);
 
-#endif /* CONEXIONES_H_ */
+#endif /* UTILS_H_ */
