@@ -5,7 +5,7 @@
  *      Author: utnso
  */
 
-#include"conexiones.h"
+#include "utils.h"
 
 
 void* serializar_paquete(t_paquete* paquete, int bytes)
@@ -23,7 +23,7 @@ void* serializar_paquete(t_paquete* paquete, int bytes)
 	return magic;
 }
 
-int conectar_cliente(char *ip, char* puerto)
+int crear_conexion(char *ip, char* puerto)
 {
 	struct addrinfo hints;
 	struct addrinfo *server_info;
@@ -62,31 +62,33 @@ void enviar_mensaje(char* mensaje, int socket_cliente)
 	send(socket_cliente, a_enviar, bytes, 0);
 
 	free(a_enviar);
-	free(paquete->buffer->stream);
-	free(paquete->buffer);
-	free(paquete);
+	eliminar_paquete(paquete);
 }
 
 
-//la idea aca es que el malloc no este para que reviente y lleguemos aca con el debugger, y hablar de malloc y debug. Ahi viene la señal que prometi para el mensaje bonito :P
-t_paquete* crear_paquete_bien(void)
+void crear_buffer(t_paquete* paquete)
 {
-	t_paquete* paquete = malloc(sizeof(t_paquete));
-	paquete->codigo_operacion = PAQUETE;
 	paquete->buffer = malloc(sizeof(t_buffer));
 	paquete->buffer->size = 0;
 	paquete->buffer->stream = NULL;
+}
+
+t_paquete* crear_super_paquete(void)
+{
+	//me falta un malloc!
+	t_paquete* paquete;
+
+	//descomentar despues de arreglar
+	//paquete->codigo_operacion = PAQUETE;
+	//crear_buffer(paquete);
 	return paquete;
 }
 
 t_paquete* crear_paquete(void)
 {
-	//Me falta un malloc!
-	t_paquete* paquete;
+	t_paquete* paquete = malloc(sizeof(t_paquete));
 	paquete->codigo_operacion = PAQUETE;
-	paquete->buffer = malloc(sizeof(t_buffer));
-	paquete->buffer->size = 0;
-	paquete->buffer->stream = NULL;
+	crear_buffer(paquete);
 	return paquete;
 }
 
@@ -108,12 +110,16 @@ void enviar_paquete(t_paquete* paquete, int socket_cliente)
 	send(socket_cliente, a_enviar, bytes, 0);
 
 	free(a_enviar);
+}
+
+void eliminar_paquete(t_paquete* paquete)
+{
 	free(paquete->buffer->stream);
 	free(paquete->buffer);
 	free(paquete);
 }
 
-void terminar_cliente(int socket_cliente)
+void eliminar_conexion(int socket_cliente)
 {
 	close(socket_cliente);
 }
