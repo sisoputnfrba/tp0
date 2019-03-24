@@ -13,6 +13,7 @@
 #include<commons/log.h>
 #include<commons/string.h>
 #include<commons/config.h>
+#include<readline/readline.h>
 
 #include "utils.h"
 
@@ -20,7 +21,6 @@ void iniciar_logger(t_log*);
 void leer_config(t_config*, t_log*);
 void leer_consola(t_log*);
 void enviar_clave(t_config*, int);
-int conectar_cliente(t_config*);
 void paquete(int);
 void terminar_programa(t_log*, t_config*, int);
 

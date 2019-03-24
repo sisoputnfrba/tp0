@@ -12,6 +12,8 @@ int main(void)
 	t_log* logger;
 	t_config* config;
 	int conexion;
+	char* ip;
+	char* puerto;
 
 	iniciar_logger(logger);
 
@@ -22,10 +24,22 @@ int main(void)
 	leer_consola(logger);
 
 	//antes de continuar, tenemos que asegurarnos que el servidor esté corriendo porque lo necesitaremos para lo que sigue.
-	//Una vez hecho eso, tenemos que conectarnos a él! Las conexiones se representan mediante enteros por cosas que hablaremos más adelante
-	conexion = conectar_cliente(config);
 
-	enviar_clave(config, conexion);
+	//Una vez hecho eso, tenemos que conectarnos a él! Las conexiones se representan mediante enteros por cosas que hablaremos más adelante.
+	//Esta parte la vamos a hacer aca en el main por simpleza.
+
+	//Primero vas a tener que levantar los valores IP y PUERTO del archivo de configuracion con esas claves. Adivina a quien se los tenes que asignar :P
+
+	//Hecho esto, vamos a conectarnos! usamos la funcion ya dada para hacerlo, y le asignamos el entero que devuelve a conexion
+	//crear_conexion(/*ip, puerto*/);
+
+	char* valor;
+
+	//ahora que tenemos la conexion, es hora de empezar a enviar cosas. Primero, el mensaje.
+	//Levantá el valor que le corresponde a CLAVE del archivo de configuracion de nuevo.
+
+	//Ahora le podés mandar el mensaje al servidor!
+	//enviar_mensaje(/*mensaje, entero de conexion*/)
 
 	paquete(conexion);
 
@@ -59,39 +73,13 @@ void leer_consola(t_log* logger)
 	char* leido;
 
 	//aca vas a tener que asignarle lo que devuelve readline a 'leido' y loggearlo hasta que eso sea nulo. Te doy uno pista: No es con un for ;)
+
 	//readline(">");
 
 	//Loggeamelo
 
 	//Y no te olvides de liberar la memoria antes de volver al readline!
 	//free(/*puntero a liberar*/);
-}
-
-int conectar_cliente(t_config* config)
-{
-	int conexion;
-	char* ip;
-	char* puerto;
-
-	//Primero, hay que conseguir la ip y el puerto del servidor. Ya te las dejamos en el archivo de configuracion, asi que ahora toca levantarlas
-	//las claves son PUERTO e IP
-
-
-	//hecho esto, ahora toca conectarnos. No te olvides de asignarle el entero que devuelve a conexion!
-	//crear_conexion(/*ip, puerto*/);
-
-	return conexion;
-}
-
-void enviar_clave(t_config* config, int conexion)
-{
-	char* valor;
-
-	//ahora que tenemos la conexion, es hora de empezar a enviar cosas. Primero, el mensaje.
-	//Levantá el valor que le corresponde a CLAVE del archivo de configuracion de nuevo.
-
-	//Ahora le podés mandar el mensaje al servidor!
-	//enviar_mensaje(/*mensaje, entero de conexion*/)
 }
 
 void paquete(int conexion)
@@ -102,12 +90,12 @@ void paquete(int conexion)
 	t_paquete* paquete = crear_paquete();
 
 
-	//De nuevo vas a tener que usar readline hasta que te llegue un nulo igual que antes, solo que ahora vas a agregar esa cadena al paquete!
+	//De nuevo vas a tener que usar readline hasta que te llegue un nulo igual que antes, solo que ahora en lugar de logear, vas a agregar esa cadena al paquete!
 	//Recomiendo revisar bien el enunciado del TP ya que ahi está explicado con detalles
 
 	//agregar_a_paquete(/*paquete, mensaje, tamanio*/);
 
-	//Una vez hayamos terminado, toca enviarlo
+	//Una vez hayamos terminado de ingresar valores, toca enviarlo
 	//enviar_paquete(/*paquete, conexion*/);
 
 	//Y no nos olvidemos de borrar el paquete con eliminar_paquete
