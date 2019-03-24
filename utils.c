@@ -86,6 +86,7 @@ t_paquete* crear_super_paquete(void)
 
 t_paquete* crear_paquete(void)
 {
+	//para los curiosos que se pregunten qué son esas flechas: http://faq.utnso.com/punteros
 	t_paquete* paquete = malloc(sizeof(t_paquete));
 	paquete->codigo_operacion = PAQUETE;
 	crear_buffer(paquete);
