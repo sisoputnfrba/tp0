@@ -10,4 +10,4 @@ Es un ejercicio corto y sirve como base para empezar el TP cuatrimestral.
 
 Podés encontrar la consigna en el siguiente [link].
 
-[link]: https://docs.google.com/document/d/1xk8YoxFnir1DSFPbS2GDMWn6ZceK6dNWsacb-PTkuss/edit?usp=sharing 
+[link]: https://faq.utnso.com/tp0-enunciado
