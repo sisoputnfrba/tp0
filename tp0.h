@@ -17,11 +17,14 @@
 
 #include "utils.h"
 
-void iniciar_logger(t_log*);
-void leer_config(t_config*, t_log*);
-void leer_consola(t_log*);
-void enviar_clave(t_config*, int);
+t_log* g_logger;
+t_config* g_config;
+
+void iniciar_logger(void);
+void leer_config(void);
+void leer_consola(void);
+void enviar_clave(void, int);
 void paquete(int);
-void terminar_programa(t_log*, t_config*, int);
+void terminar_programa(int);
 
 #endif /* TP0_H_ */

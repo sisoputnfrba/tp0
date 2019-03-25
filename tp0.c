@@ -9,19 +9,17 @@
 
 int main(void)
 {
-	t_log* logger;
-	t_config* config;
 	int conexion;
 	char* ip;
 	char* puerto;
 
-	iniciar_logger(logger);
+	//las variables de logger y config estan declaradas como globales en el encabezado de este tp0
 
-	leer_config(config, logger);
+	iniciar_logger();
 
-	//antes de poder hacer esta parte, vas a tener que incluir en "tp0.h" readline (vease el enunciado), y agregar la biblioteca al proyecto de Eclipse
-	//Lo vamos a estar explicando en la puesta en comun. Si te adelantaste, llamá a un ayudante!
-	leer_consola(logger);
+	leer_config();
+
+	leer_consola();
 
 	//antes de continuar, tenemos que asegurarnos que el servidor esté corriendo porque lo necesitaremos para lo que sigue.
 
@@ -43,24 +41,24 @@ int main(void)
 
 	paquete(conexion);
 
-	terminar_programa(logger, config, conexion);
+	terminar_programa(conexion);
 }
 
-void iniciar_logger(t_log* logger)
+void iniciar_logger(void)
 {
 	//creemos el log! Este se debe crear con el nombre "tp0.log", se debe mostrar por consola y debe estar en el nivel INFO
-	//logger = log_create(/*nombre del archivo, nombre del programa, 1 para mostrar por consona 0 caso contrario, nivel de log deseado */);
+	//g_logger = log_create(/*nombre del archivo, nombre del programa, 1 para mostrar por consona 0 caso contrario, nivel de log deseado */);
 
 	//logeemos el mensaje "Soy un log"
 	//log_info(/*logger, mensaje*/);
 }
 
-void leer_config(t_config* config, t_log* logger)
+void leer_config(void)
 {
 	char* valor;
 
 	//ahora, vamos a abrir el archivo de configuracion "tp0.config"
-	//config = config_create(/*path*/);
+	//g_config = config_create(/*path*/);
 
 	//tenemos que levantar en valor asociado a la clave "CLAVE" del archivo y asignarselo a la variable valor
 	//config_get_string_value(/*config, clave*/);
@@ -68,18 +66,22 @@ void leer_config(t_config* config, t_log* logger)
 	//Por último, logeame ese valor :)
 }
 
-void leer_consola(t_log* logger)
+void leer_consola(void)
 {
 	char* leido;
 
-	//aca vas a tener que asignarle lo que devuelve readline a 'leido' y loggearlo hasta que eso sea nulo. Te doy uno pista: No es con un for ;)
+	//El primero te lo dejo de yapa
+	leido = readline(">");
+	while(*leido != '\0') //Voy a dejar esto por aca: http://faq.utnso.com/punteros
+	{
+		//Primero, logeame lo leido
 
-	//readline(">");
+		//ahora que ya usamos el string, liberamelo con free
 
-	//Loggeamelo
+		//free NO asigna el valor NULL a los punteros que libera, pero es buena practica asignarselo a tenerlo apuntando a basura
 
-	//Y no te olvides de liberar la memoria antes de volver al readline!
-	//free(/*puntero a liberar*/);
+		//volvemos a poner el readline para poder seguir loggeando.
+	}
 }
 
 void paquete(int conexion)
@@ -101,7 +103,7 @@ void paquete(int conexion)
 	//Y no nos olvidemos de borrar el paquete con eliminar_paquete
 }
 
-void terminar_programa(t_log* logger, t_config* config, int conexion)
+void terminar_programa(int conexion)
 {
 	//Y por ultimo, para cerrar, hay que liberar estas cosas con las funciones de las commons y del TP mencionadas en el enunciado
 }
