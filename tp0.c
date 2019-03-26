@@ -47,7 +47,7 @@ int main(void)
 void iniciar_logger(void)
 {
 	//creemos el log! Este se debe crear con el nombre "tp0.log", se debe mostrar por consola y debe estar en el nivel INFO
-	//g_logger = log_create(/*nombre del archivo, nombre del programa, 1 para mostrar por consona 0 caso contrario, nivel de log deseado */);
+	//g_logger = log_create(/*nombre del archivo, nombre del programa, 1 para mostrar por consola 0 caso contrario, nivel de log deseado */);
 
 	//logeemos el mensaje "Soy un log"
 	//log_info(/*logger, mensaje*/);
@@ -72,8 +72,11 @@ void leer_consola(void)
 
 	//El primero te lo dejo de yapa
 	leido = readline(">");
-	while(*leido != '\0') //Voy a dejar esto por aca: http://faq.utnso.com/punteros
-	{
+
+	//Los siguiente 4 pasos vas a tener que meterlos en algun tipo de bucle. Te tiro una pista, no es con for ;)
+
+	//Voy a dejar esto por aca porque quizas complemente al enunciado: http://faq.utnso.com/punteros
+
 		//Primero, logeame lo leido
 
 		//ahora que ya usamos el string, liberamelo con free
@@ -81,7 +84,6 @@ void leer_consola(void)
 		//free NO asigna el valor NULL a los punteros que libera, pero es buena practica asignarselo a tenerlo apuntando a basura
 
 		//volvemos a poner el readline para poder seguir loggeando.
-	}
 }
 
 void paquete(int conexion)
@@ -90,7 +92,6 @@ void paquete(int conexion)
 
 	char* leido;
 	t_paquete* paquete = crear_paquete();
-
 
 	//De nuevo vas a tener que usar readline hasta que te llegue un nulo igual que antes, solo que ahora en lugar de logear, vas a agregar esa cadena al paquete!
 	//Recomiendo revisar bien el enunciado del TP ya que ahi está explicado con detalles
@@ -105,5 +106,5 @@ void paquete(int conexion)
 
 void terminar_programa(int conexion)
 {
-	//Y por ultimo, para cerrar, hay que liberar estas cosas con las funciones de las commons y del TP mencionadas en el enunciado
+	//Y por ultimo, para cerrar, hay que liberar lo que utilizamos (conexion, log y config) con las funciones de las commons y del TP mencionadas en el enunciado
 }

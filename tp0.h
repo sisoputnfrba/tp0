@@ -24,7 +24,6 @@ t_config* g_config;
 void iniciar_logger(void);
 void leer_config(void);
 void leer_consola(void);
-void enviar_clave(void, int);
 void paquete(int);
 void terminar_programa(int);
 
