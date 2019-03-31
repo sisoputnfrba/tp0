@@ -1,12 +1,12 @@
 /*
- * Resolucion 3 del TP0
+ * Resolucion 3 del TP0 [Dificultad Alto]
  *
  * Buenas! A diferencia de la resolucion que hicimos en las charlas (la version 1)
- * y su contraparte más "pulida" (version 2), esta resolucion les va a presentar,
+ * y su contraparte mas "pulida" (version 2), esta resolucion les va a presentar,
  * aparte de una mejora en buenas practicas de programacion (como evitar repetir codigo),
  * con el concepto de Funciones Anidadas (Nested Functions) y punteros a funciones.
  *
- * Esta resolucion es análoga a la version 2, cambiando la parte estructura del
+ * Esta resolucion es analoga a la version 2, cambiando la parte estructura del
  * esqueleto que ustedes tienen.
  *
  * Espero que le saquen provecho a esta implementacion, comparandola no solo en funcionalidades
@@ -64,7 +64,7 @@ t_config* leer_config() {
  * 
  * Para solucionar eso vamos a introducir los dos conceptos nuevos, que
  * si bien no forman parte del standard de ANSI C, si forman parte de la
- * implementación de GNU C, que es la que se encuentra en el compilador que
+ * implementacion de GNU C, que es la que se encuentra en el compilador que
  * usamos por la catedra: GCC. Estos son:
  * 
  * Funciones anidadas (o Nested Functions):
