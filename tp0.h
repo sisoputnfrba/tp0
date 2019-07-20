@@ -17,14 +17,11 @@
 
 #include "utils.h"
 
-// Por lo general, a menos que tengan que tener recursos compartidos, no es buena práctica usar variables globales. Nosotros lo estamos haciendo por la simplicidad del TP0 :)
-t_log* g_logger;
-t_config* g_config;
 
-void iniciar_logger(void);
-void leer_config(void);
-void leer_consola(void);
+t_log* iniciar_logger(void);
+t_config* leer_config(void);
+void leer_consola(t_log*);
 void paquete(int);
-void terminar_programa(int);
+void terminar_programa(int, t_log*, t_config*);
 
 #endif /* TP0_H_ */
