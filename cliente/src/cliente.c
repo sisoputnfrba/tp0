@@ -5,7 +5,7 @@
  *      Author: utnso
  */
 
-#include "tp0.h"
+#include "cliente.h"
 
 int main(void)
 {
