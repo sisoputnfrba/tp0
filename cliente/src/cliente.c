@@ -5,7 +5,7 @@
  * esta resolucion les va a presentar una mejora en buenas practicas de programacion.
  * Dado que no queriamos abrumarlos durante el Workshops, nos tomamos un par de licencias
  * de hacer codigo "feo" y poco mantenible.
- * 
+ *
  * Por lo tanto, esta resolucion plantea tambien otra forma de resolverlo, cambiando la
  * estructura del esqueleto que ustedes tienen.
  * Cosas que se cambiaron:
@@ -15,7 +15,7 @@
  * - Evitamos comparar strings en funcion de sus caracteres: Usamos funciones de la biblioteca
  * standard para trabajar strings: strncmp.
  * - Organizacion del codigo y eliminacion de variables innecesarias.
- * 
+ *
  * Espero que le saquen provecho a esta implementacion, comparandola no solo en funcionalidades
  * con las suyas, sino que tambien a nivel disenio y saquen sus propias conclusiones :).
  *
@@ -24,7 +24,7 @@
  * Nota: Sacamos todos los caracteres especiales para que se vea simpre bien :P
  */
 
-#include "tp0.h"
+#include "cliente.h"
 
 int main(void) {
 	// PARTE 2
