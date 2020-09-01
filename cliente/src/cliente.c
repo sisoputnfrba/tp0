@@ -17,7 +17,7 @@
  * Nota: Sacamos todos los caracteres especiales para que se vea simpre bien :P
  */
 
-#include "tp0.h"
+#include "cliente.h"
 
 int main(void) {
 	// PARTE 2
@@ -61,12 +61,12 @@ t_config* leer_config() {
  * Hasta esta funcion, es parecida a la resolucion numero 2. Pero esta
  * ultima tenia un problema grave: la logica de leer strings de consola
  * se encontraba duplicada.
- * 
+ *
  * Para solucionar eso vamos a introducir los dos conceptos nuevos, que
  * si bien no forman parte del standard de ANSI C, si forman parte de la
  * implementacion de GNU C, que es la que se encuentra en el compilador que
  * usamos por la catedra: GCC. Estos son:
- * 
+ *
  * Funciones anidadas (o Nested Functions):
  * ---------------------------------------
  * El compilador nos permite crear funciones locales al contexto de otra funcion.
@@ -75,15 +75,15 @@ t_config* leer_config() {
  * Algo importante a tener en cuenta, es que las funciones anidadas, mantienen el
  * contexto de la funcion exterior, es decir, que las variables definidas en la funcion
  * exterior son accesibles desde le interior (masomenos, como funcionan las variables globales).
- * 
- * 
+ *
+ *
  * Punteros a Funcion:
  * ------------------
  * Las funciones no escapan  del concepto de puntero, por como funciona el compilador.
  * Esto implica que llamar a una funcion por su nombre, ejemplo:
  * ```
  * void _soy_funcion() { };
- * 
+ *
  * variable = _soy_funcion;
  * ```
  * Es como tener un puntero a "alguna cosa", y podemos definir la variable como:
@@ -92,7 +92,7 @@ t_config* leer_config() {
  * ```
  * El casteo a "void*" es necesario para que el compilador entienda que es un puntero
  * a "alguna cosa".
- * 
+ *
  * Ahora, si podemos asignar a una variable, porque no: pasar una funcion por parametro.
  * Esto nos habilita el orden superior en nuestras funciones.
  */
@@ -122,10 +122,10 @@ t_paquete* armar_paquete() {
  * Este comportamiento es el comun a ambas funciones,
  * cambiando solamente que por un lado vamos a loggear y
  * por el otro, queremos agregar las lineas a un paquete.
- * 
+ *
  * Por lo tanto, necesita que se le pase una funcion que reciba
  * un string por parametro y no haga nada.
- * 
+ *
  * Noten que la firma de la funcion pide void(*accion)(char*)
  * que implica:
  * - Un puntero a la funcion accion: (*accion)
