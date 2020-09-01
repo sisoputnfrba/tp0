@@ -4,12 +4,12 @@
  * Buenas! Esta es una resolucion similar hicimos en las charlas.
  * Tiene varios problemas de disenio y buen criterio de codigo, dado que nos tomamos
  * un par de licencias para que el workshop sea mas ameno y rapido.
- * 
+ *
  * Les proponemos tomen esta resolucion como "una que funciona" y los invitamos
  * a que revisen las resoluciones 2 y 3, que van introduciones varios conceptos nuevos,
  * tanto desde el lado duro y tecnico, como de la mantenibilidad del codigo y buenas
  * practicas.
- * 
+ *
  * Las otras dos resoluciones pueden encontrarlas en otras branches de este mismo repositorio.
  *
  * Espero que le saquen provecho a esta implementacion, comparandola no solo en funcionalidades
@@ -19,7 +19,7 @@
  *
  * Nota: Sacamos todos los caracteres especiales para que se vea simpre bien :P
  */
-#include "tp0.h"
+#include "cliente.h"
 
 int main(void)
 {
@@ -73,7 +73,7 @@ void leer_config(void)
 	char* valor;
 
 	//ahora, vamos a abrir el archivo de configuracion "tp0.config"
-	g_config = config_create("tp0.config");
+	g_config = config_create("cliente.config");
 
 	//tenemos que levantar en valor asociado a la clave "CLAVE" del archivo y asignarselo a la variable valor
 	valor = config_get_string_value(g_config, "CLAVE");

@@ -5,8 +5,8 @@
  *      Author: utnso
  */
 
-#ifndef TP0_H_
-#define TP0_H_
+#ifndef CLIENTE_H__
+#define CLIENTE_H_H_
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -27,4 +27,4 @@ void leer_consola(void);
 void paquete(int);
 void terminar_programa(int);
 
-#endif /* TP0_H_ */
+#endif /* CLIENTE_H__H_ */
