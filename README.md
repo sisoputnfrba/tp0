@@ -16,7 +16,7 @@ Podés encontrar la consigna en el siguiente [link].
 
 Hemos dejado tres formas difentes de resolver este TP0
 
-La [resolucion 1] es la versión base, que fue la que hicimos en conjunto el el workshop.
+La [resolucion 1] es la versión base, que fue la que hicimos en conjunto en el workshop.
 
 La [resolucion 2] es una intermedio, donde eliminamos las variables globales y simplificamos un poco el codigo.
 
