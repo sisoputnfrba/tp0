@@ -5,8 +5,8 @@
  *      Author: utnso
  */
 
-#ifndef CONEXIONES_H_
-#define CONEXIONES_H_
+#ifndef UTILS_H_
+#define UTILS_H_
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -36,4 +36,4 @@ t_list* recibir_paquete(int);
 void recibir_mensaje(int);
 int recibir_operacion(int);
 
-#endif /* CONEXIONES_H_ */
+#endif /* UTILS_H_ */
