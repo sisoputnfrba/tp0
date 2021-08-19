@@ -1,10 +1,3 @@
-/*
- * main.c
- *
- *  Created on: 28 feb. 2019
- *      Author: utnso
- */
-
 #include "cliente.h"
 
 int main(void)
@@ -20,11 +13,13 @@ int main(void)
 
 	logger = iniciar_logger();
 
-	//Loggear "soy un log"
+	// Usando el logger creado previamente
+	// Escribi: "Hola! Soy un log"
 
-	config = leer_config();
+	config = iniciar_config();
 
-	//asignar valor de config a la variable valor
+	// Usando el config creado previamente
+	// Lee las variables de IP, Puerto y Valor
 
 	//Loggear valor de config
 
@@ -33,25 +28,33 @@ int main(void)
 
 	/*---------------------------------------------------PARTE 3-------------------------------------------------------------*/
 
-	//antes de continuar, tenemos que asegurarnos que el servidor esté corriendo porque lo necesitaremos para lo que sigue.
+	// Antes de continuar, tenemos que asegurarnos que el servidor esté corriendo porque lo necesitaremos para lo que sigue.
 
-	//crear conexion
+	// Creamos una conexión hacia el servidor
+	conexion = crear_conexion(ip, puerto);
 
 	//enviar CLAVE al servirdor
 
 	paquete(conexion);
 
 	terminar_programa(conexion, logger, config);
+
+	/*---------------------------------------------------PARTE 5-------------------------------------------------------------*/
+	// Proximamente
 }
 
 t_log* iniciar_logger(void)
 {
+	t_log* nuevo_logger;
 
+	return nuevo_logger;
 }
 
-t_config* leer_config(void)
+t_config* iniciar_config(void)
 {
+	t_config* nuevo_config;
 
+	return nuevo_config;
 }
 
 void leer_consola(t_log* logger)
@@ -60,6 +63,8 @@ void leer_consola(t_log* logger)
 
 	//El primero te lo dejo de yapa
 	leido = readline(">");
+
+	// Acá la idea es que imprimas por el log lo que recibis de la consola.
 
 
 }

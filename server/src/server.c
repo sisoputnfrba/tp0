@@ -1,10 +1,3 @@
-/*
- * servidor.c
- *
- *  Created on: 3 mar. 2019
- *      Author: utnso
- */
-
 #include "server.h"
 
 int main(void) {

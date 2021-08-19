@@ -1,10 +1,3 @@
-/*
- * conexiones.c
- *
- *  Created on: 3 mar. 2019
- *      Author: utnso
- */
-
 #include"utils.h"
 
 int iniciar_servidor(void)
@@ -20,19 +13,11 @@ int iniciar_servidor(void)
 
     getaddrinfo(IP, PUERTO, &hints, &servinfo);
 
-    for (p=servinfo; p != NULL; p = p->ai_next)
-    {
-        if ((socket_servidor = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1)
-            continue;
+    // Creamos el socket de escucha del servidor
 
-        if (bind(socket_servidor, p->ai_addr, p->ai_addrlen) == -1) {
-            close(socket_servidor);
-            continue;
-        }
-        break;
-    }
+    // Asociamos el socket a un puerto
 
-	listen(socket_servidor, SOMAXCONN);
+    // Escuchamos las conexiones entrantes
 
     freeaddrinfo(servinfo);
 
@@ -46,7 +31,8 @@ int esperar_cliente(int socket_servidor)
 	struct sockaddr_in dir_cliente;
 	int tam_direccion = sizeof(struct sockaddr_in);
 
-	int socket_cliente = accept(socket_servidor, (void*) &dir_cliente, &tam_direccion);
+	// Aceptamos un nuevo cliente
+	int socket_cliente = 0;
 
 	log_info(logger, "Se conecto un cliente!");
 

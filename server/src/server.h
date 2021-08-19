@@ -1,10 +1,3 @@
-/*
- * servidor.h
- *
- *  Created on: 3 mar. 2019
- *      Author: utnso
- */
-
 #ifndef SERVIDOR_H_
 #define SERVIDOR_H_
 

@@ -1,10 +1,3 @@
-/*
- * Cliente.h
- *
- *  Created on: 28 feb. 2019
- *      Author: utnso
- */
-
 #ifndef CLIENTE_H_
 #define CLIENTE_H_
 
@@ -19,7 +12,7 @@
 
 
 t_log* iniciar_logger(void);
-t_config* leer_config(void);
+t_config* iniciar_config(void);
 void leer_consola(t_log*);
 void paquete(int);
 void terminar_programa(int, t_log*, t_config*);
