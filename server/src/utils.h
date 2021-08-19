@@ -1,10 +1,3 @@
-/*
- * conexiones.h
- *
- *  Created on: 3 mar. 2019
- *      Author: utnso
- */
-
 #ifndef UTILS_H_
 #define UTILS_H_
 
