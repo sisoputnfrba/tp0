@@ -1,5 +1,5 @@
-#ifndef CLIENTE_H_
-#define CLIENTE_H_
+#ifndef CLIENT_H_
+#define CLIENT_H_
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -17,4 +17,4 @@ void leer_consola(t_log*);
 void paquete(int);
 void terminar_programa(int, t_log*, t_config*);
 
-#endif /* CLIENTE_H_ */
+#endif /* CLIENT_H_ */
