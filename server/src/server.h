@@ -1,5 +1,5 @@
-#ifndef SERVIDOR_H_
-#define SERVIDOR_H_
+#ifndef SERVER_H_
+#define SERVER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,4 +9,4 @@
 
 void iterator(t_log* logger, char* value);
 
-#endif /* SERVIDOR_H_ */
+#endif /* SERVER_H_ */
