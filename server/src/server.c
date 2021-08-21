@@ -1,7 +1,5 @@
 #include "server.h"
 
-t_log* logger;
-
 int main(void) {
 	logger = log_create("log.log", "Servidor", 1, LOG_LEVEL_DEBUG);
 
