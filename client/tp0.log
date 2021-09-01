@@ -151,3 +151,8 @@ La clave: Hola, soy un valor
 El puerto: 4444 
 La clave: Hola, soy un valor 
 
+[INFO] 13:52:15:043 TP0/(5382:5382): Hola! soy un log
+[INFO] 13:52:15:045 TP0/(5382:5382): Obtuve el valor de la IP: 127.0.0.1
+El puerto: 4444 
+La clave: Hola, soy un valor 
+

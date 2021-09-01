@@ -83,7 +83,6 @@ t_config* iniciar_config(void)
 void leer_consola(t_log* logger)
 {
 	char* leido;
-	char* vacio;
 
 	//El primero te lo dejo de yapa
 	leido = readline("> ");

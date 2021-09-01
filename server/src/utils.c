@@ -18,6 +18,7 @@ int iniciar_servidor(void)
                              servinfo->ai_socktype,
                              servinfo->ai_protocol);
 
+
     bind(socket_servidor, servinfo->ai_addr, servinfo->ai_addrlen);
 
     listen(socket_servidor, SOMAXCONN);
@@ -39,8 +40,8 @@ int esperar_cliente(int socket_servidor)
 	int tam_direccion = sizeof(struct sockaddr_in);
 
 	// Aceptamos un nuevo cliente
-	int socket_cliente = accept(socket_servidor, NULL, NULL);
-
+	//int socket_cliente = accept(socket_servidor, NULL, NULL);
+	int socket_cliente = accept(socket_servidor, (void*) &dir_cliente, &tam_direccion);
 
 	log_info(logger, "Se conecto un cliente!");
 
