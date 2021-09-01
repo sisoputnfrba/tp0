@@ -14,6 +14,13 @@ int iniciar_servidor(void)
     getaddrinfo(IP, PUERTO, &hints, &servinfo);
 
     // Creamos el socket de escucha del servidor
+    socket_servidor = socket(servinfo->ai_family,
+                             servinfo->ai_socktype,
+                             servinfo->ai_protocol);
+
+    bind(socket_servidor, servinfo->ai_addr, servinfo->ai_addrlen);
+
+    listen(socket_servidor, SOMAXCONN);
 
     // Asociamos el socket a un puerto
 
@@ -32,7 +39,8 @@ int esperar_cliente(int socket_servidor)
 	int tam_direccion = sizeof(struct sockaddr_in);
 
 	// Aceptamos un nuevo cliente
-	int socket_cliente = 0;
+	int socket_cliente = accept(socket_servidor, NULL, NULL);
+
 
 	log_info(logger, "Se conecto un cliente!");
 
