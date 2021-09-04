@@ -2,38 +2,39 @@
 
 int iniciar_servidor(void)
 {
+	// Quitar esta línea cuando hayamos terminado de implementar la funcion
+	assert(!"no implementado!");
+
 	int socket_servidor;
 
-    struct addrinfo hints, *servinfo, *p;
+	struct addrinfo hints, *servinfo, *p;
 
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_PASSIVE;
+	memset(&hints, 0, sizeof(hints));
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags = AI_PASSIVE;
 
-    getaddrinfo(IP, PUERTO, &hints, &servinfo);
+	getaddrinfo(IP, PUERTO, &hints, &servinfo);
 
-    // Creamos el socket de escucha del servidor
+	// Creamos el socket de escucha del servidor
 
-    // Asociamos el socket a un puerto
+	// Asociamos el socket a un puerto
 
-    // Escuchamos las conexiones entrantes
+	// Escuchamos las conexiones entrantes
 
-    freeaddrinfo(servinfo);
+	freeaddrinfo(servinfo);
+	log_trace(logger, "Listo para escuchar a mi cliente");
 
-    log_trace(logger, "Listo para escuchar a mi cliente");
-
-    return socket_servidor;
+	return socket_servidor;
 }
 
 int esperar_cliente(int socket_servidor)
 {
-	struct sockaddr_in dir_cliente;
-	int tam_direccion = sizeof(struct sockaddr_in);
+	// Quitar esta línea cuando hayamos terminado de implementar la funcion
+	assert(!"no implementado!");
 
 	// Aceptamos un nuevo cliente
-	int socket_cliente = 0;
-
+	int socket_cliente;
 	log_info(logger, "Se conecto un cliente!");
 
 	return socket_cliente;
@@ -70,7 +71,6 @@ void recibir_mensaje(int socket_cliente)
 	free(buffer);
 }
 
-//podemos usar la lista de valores para poder hablar del for y de como recorrer la lista
 t_list* recibir_paquete(int socket_cliente)
 {
 	int size;
@@ -91,5 +91,4 @@ t_list* recibir_paquete(int socket_cliente)
 	}
 	free(buffer);
 	return valores;
-	return NULL;
 }
