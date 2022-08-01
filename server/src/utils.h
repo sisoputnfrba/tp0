@@ -20,7 +20,7 @@ typedef enum
 	PAQUETE
 }op_code;
 
-t_log* logger;
+extern t_log* logger;
 
 void* recibir_buffer(int*, int);
 
