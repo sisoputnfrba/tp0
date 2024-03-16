@@ -7,7 +7,7 @@
       "name": "run",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/bin/${workspaceFolderBasename}.out",
+      "program": "${workspaceFolder}/bin/${workspaceFolderBasename}",
       "args": [
       ],
       "stopAtEntry": false,
