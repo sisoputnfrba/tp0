@@ -3,13 +3,6 @@ bin/
 obj/
 *.log
 
-# Eclipse files
-RemoteSystemsTempFiles/
-.metadata/
-.settings/
-.cproject
-.project
-
 # CLion files
 .idea/
 

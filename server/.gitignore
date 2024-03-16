@@ -3,16 +3,6 @@ bin/
 obj/
 *.log
 
-# Eclipse files
-RemoteSystemsTempFiles/
-.metadata/
-.settings/
-.cproject
-.project
-
-# CLion files
-.idea/
-
 # Visual Studio Code files
 .vscode/*
 !.vscode/c_cpp_properties.json
