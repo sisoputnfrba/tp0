@@ -3,9 +3,6 @@ bin/
 obj/
 *.log
 
-# CLion files
-.idea/
-
 # Visual Studio Code files
 .vscode/*
 !.vscode/c_cpp_properties.json
