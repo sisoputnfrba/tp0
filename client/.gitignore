@@ -3,6 +3,11 @@ bin/
 obj/
 *.log
 
+# Eclipse files
+.settings/
+.cproject
+.project
+
 # Visual Studio Code files
 .vscode/*
 !.vscode/c_cpp_properties.json
