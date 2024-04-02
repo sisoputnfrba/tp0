@@ -34,11 +34,8 @@ int iniciar_servidor(void)
 
 int esperar_cliente(int socket_servidor)
 {
-	// Quitar esta línea cuando hayamos terminado de implementar la funcion
-	assert(!"no implementado!");
-
 	// Aceptamos un nuevo cliente
-	int socket_cliente;
+	int socket_cliente = accept(socket_servidor, NULL, NULL);
 	log_info(logger, "Se conecto un cliente!");
 
 	return socket_cliente;
