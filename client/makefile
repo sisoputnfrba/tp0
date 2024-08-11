@@ -1,63 +1,74 @@
 include settings.mk
 
+################################################################################
+
+outname = bin/$(1)
+
+define compile_out
+	$(CC) $(CFLAGS) -o "$@" $^ $(IDIRS:%=-I%) $(LIBDIRS:%=-L%) $(RUNDIRS:%=-Wl,-rpath,%) $(LIBS:%=-l%)
+endef
+
+define compile_objs
+	$(CC) $(CFLAGS) -c -o "$@" $< $(IDIRS:%=-I%)
+endef
+
+################################################################################
+
+# Project name
+NAME=$(shell pwd | xargs -I{} basename "{}")
+
 # Set compiler and archiver options
 CC=gcc
 AR=ar
 ARFLAGS=rcs
+MAKE=make --no-print-directory
 
 # Set prerrequisites
-SRCS_C += $(shell find src/ -iname "*.c")
-SRCS_H += $(shell find src/ -iname "*.h")
-DEPS = $(foreach STL,$(STATIC_LIBPATHS),$(STL:%=%/bin/lib$(notdir $(STL)).a))
+SRCS_C += $(shell find src -iname "*.c")
+SRCS_H += $(shell find src -iname "*.h")
+DEPS = $(foreach SHL,$(SHARED_LIBPATHS),$(SHL:%=%/lib/lib$(notdir $(SHL)).so)) \
+	$(foreach STL,$(STATIC_LIBPATHS),$(STL:%=%/lib/lib$(notdir $(STL)).a))
 
 # Set header paths to (-I)nclude
-IDIRS += $(addsuffix /src,$(STATIC_LIBPATHS) .)
+IDIRS += $(addsuffix /src,$(SHARED_LIBPATHS) $(STATIC_LIBPATHS) .) /usr/local/include
 
 # Set library paths to (-L)ook
-LIBDIRS = $(addsuffix /bin,$(STATIC_LIBPATHS))
+LIBDIRS = $(addsuffix /lib,$(SHARED_LIBPATHS) $(STATIC_LIBPATHS)) /usr/local/lib
+
+# Set shared library paths to be found in runtime (-rpath)
+RUNDIRS = $(SHARED_LIBPATHS:%=$(shell pwd)/%/lib)
 
 # Set intermediate objects
 OBJS = $(patsubst src/%.c,obj/%.o,$(SRCS_C))
 
-# Set binary targets
-BIN = bin/$(shell cd . && pwd | xargs basename)
+# Set output
+OUT = $(call outname,$(NAME))
 
 .PHONY: all
 all: debug
 
 .PHONY: debug
 debug: CFLAGS = $(CDEBUG)
-debug: $(BIN)
+debug: $(OUT)
 
 .PHONY: release
 release: CFLAGS = $(CRELEASE)
-release: $(BIN)
+release: $(OUT)
 
 .PHONY: clean
 clean:
-	-rm -rfv obj bin
+	-rm -rfv $(dir $(TEST) $(OBJS) $(OUT))
+	-for dir in $(SHARED_LIBPATHS) $(STATIC_LIBPATHS); do $(MAKE) -C $$dir clean; done
 
-$(BIN): $(OBJS) | $(dir $(BIN))
-	$(CC) $(CFLAGS) -o "$@" $^ $(IDIRS:%=-I%) $(LIBDIRS:%=-L%) $(LIBS:%=-l%)
+$(OUT): $(OBJS) | $(dir $(OUT))
+	$(call compile_out)
 
 obj/%.o: src/%.c $(SRCS_H) $(DEPS) | $(dir $(OBJS))
-	$(CC) $(CFLAGS) -c -o "$@" $< $(IDIRS:%=-I%)
+	$(call compile_objs)
 
 .SECONDEXPANSION:
-$(DEPS): $$(shell find $$(patsubst %bin/,%src/,$$(dir $$@)) -iname "*.c" -or -iname "*.h")
-	make --no-print-directory -C $(patsubst %bin/,%,$(dir $@)) 3>&1 1>&2 2>&3 | sed -E 's,(src/)[^ ]+\.(c|h)\:,$(patsubst %bin/,%,$(dir $@))&,' 3>&2 2>&1 1>&3
+$(DEPS): $$(shell find $$(patsubst %lib/,%src/,$$(dir $$@)) -iname "*.c" -or -iname "*.h")
+	$(MAKE) -C $(patsubst %lib/,%,$(dir $@)) 3>&1 1>&2 2>&3 | sed -E 's,(src/)[^ ]+\.(c|h)\:,$(patsubst %lib/,%,$(dir $@))&,' 3>&2 2>&1 1>&3
 
-$(sort $(dir $(BIN) $(OBJS))):
+$(sort $(dir $(OUT) $(OBJS))):
 	mkdir -pv $@
-
-.PHONY: start
-start: debug
-	valgrind --tool=none ./$(BIN) $(ARGS)
-
-.PHONY: memcheck
-memcheck: debug
-	valgrind --leak-check=full $(MEMCHECK_FLAGS) ./$(BIN) $(ARGS)
-
-.PHONY: helgrind
-helgrind: debug
-	valgrind --tool=helgrind $(HELGRIND_FLAGS) ./$(BIN) $(ARGS)

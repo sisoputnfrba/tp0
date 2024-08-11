@@ -5,22 +5,13 @@
   "tasks": [
     {
       "label": "build",
-      "command": "make all",
+      "command": "make clean all",
       "type": "shell",
       "group": {
         "kind": "build",
         "isDefault": true
       },
       "problemMatcher": ["$gcc"]
-    },
-    {
-      "label": "clean",
-      "command": "make clean",
-      "type": "shell",
-      "group": {
-        "kind": "none"
-      },
-      "problemMatcher": []
     }
   ]
 }
