@@ -1,4 +1,5 @@
 #include "client.h"
+#include <readline/readline.h>
 
 int main(void)
 {
@@ -19,6 +20,11 @@ int main(void)
 	// Usando el logger creado previamente
 	// Escribi: "Hola! Soy un log"
 
+	log_info(logger, "Hola capo, soy un log");
+	log_info(logger, "Bata bata eu bata");
+
+	//log_destroy(logger);
+
 
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
 
@@ -29,10 +35,32 @@ int main(void)
 
 	// Loggeamos el valor de config
 
+	if (config == NULL) {
+		log_info(logger, "No existe el archivo config.");
+		return 0;
+	}else{
+		log_info(logger, "Existe el archivo config.");
 
+		if(config_has_property(config, "CLAVE")){
+			log_info(logger, "Existe la propiedad CLAVE en el archivo config !");
+			valor = config_get_string_value(config, "CLAVE");
+			log_info(logger, "Este valor se asocia a la propiedad CLAVE: %s", valor);
+
+			ip = config_get_string_value(config, "IP");
+			log_info(logger, "Este valor se asocia a la propiedad IP: %s", ip);
+
+			puerto = config_get_string_value(config, "PUERTO");
+			log_info(logger, "Este valor se asocia a la propiedad PUERTO: %s", puerto);
+
+		}else{
+			log_info(logger, "Che capo, no habia un atributo con CLAVE...");
+			return 0;
+		}
+	}
+	
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
-	leer_consola(logger);
+	//leer_consola(logger);
 
 	/*---------------------------------------------------PARTE 3-------------------------------------------------------------*/
 
@@ -42,19 +70,19 @@ int main(void)
 	conexion = crear_conexion(ip, puerto);
 
 	// Enviamos al servidor el valor de CLAVE como mensaje
+	enviar_mensaje(valor, conexion);
 
 	// Armamos y enviamos el paquete
-	paquete(conexion);
+	//paquete(conexion);
 
 	terminar_programa(conexion, logger, config);
-
-	/*---------------------------------------------------PARTE 5-------------------------------------------------------------*/
-	// Proximamente
 }
 
 t_log* iniciar_logger(void)
 {
 	t_log* nuevo_logger;
+
+	nuevo_logger = log_create("/home/utnso/Desktop/TP0/Logs/logTP0.log", "TP0", true, LOG_LEVEL_INFO);
 
 	return nuevo_logger;
 }
@@ -63,21 +91,24 @@ t_config* iniciar_config(void)
 {
 	t_config* nuevo_config;
 
+	nuevo_config = config_create("/home/utnso/Desktop/TP0/Config/client.config");
+
 	return nuevo_config;
 }
 
 void leer_consola(t_log* logger)
-{
-	char* leido;
+{    
+    do {
+		char* leido = readline("> ");
 
-	// La primera te la dejo de yapa
-	leido = readline("> ");
+        if (leido == NULL || strlen(leido) == 0) {  
+            //free(leido);  
+            break;
+        }
 
-	// El resto, las vamos leyendo y logueando hasta recibir un string vacío
-
-
-	// ¡No te olvides de liberar las lineas antes de regresar!
-
+        log_info(logger, leido);
+        //free(leido);
+    } while (1);
 }
 
 void paquete(int conexion)

@@ -4,27 +4,31 @@ t_log* logger;
 
 int iniciar_servidor(void)
 {
-	// Quitar esta línea cuando hayamos terminado de implementar la funcion
-	assert(!"no implementado!");
-
 	int socket_servidor;
 
-	struct addrinfo hints, *servinfo, *p;
+	struct addrinfo hints, *serv_info, *p;
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	getaddrinfo(NULL, PUERTO, &hints, &servinfo);
+	getaddrinfo(NULL, "4444", &hints, &serv_info);
 
 	// Creamos el socket de escucha del servidor
+	// O sea, creamos el file descriptor (fd)
+	socket_servidor = socket( serv_info->ai_family, serv_info->ai_socktype, serv_info->ai_protocol);
 
 	// Asociamos el socket a un puerto
+	setsockopt(socket_servidor, SOL_SOCKET, SO_REUSEPORT, &(int){1}, sizeof(int));
+	// Toma el socket y le pido al sistema operativo que lo asocie al puerto
+	bind(socket_servidor, serv_info->ai_addr, serv_info->ai_addrlen);
 
 	// Escuchamos las conexiones entrantes
+	// Toma ese mismo socket y lo marca en el sistema como un socket cuya única responsabilidad es notificar cuando un nuevo cliente esté intentando conectarse
+	listen(socket_servidor, SOMAXCONN);
 
-	freeaddrinfo(servinfo);
+	freeaddrinfo(serv_info);
 	log_trace(logger, "Listo para escuchar a mi cliente");
 
 	return socket_servidor;
@@ -32,15 +36,21 @@ int iniciar_servidor(void)
 
 int esperar_cliente(int socket_servidor)
 {
-	// Quitar esta línea cuando hayamos terminado de implementar la funcion
-	assert(!"no implementado!");
+	struct sockaddr_in dir_cliente;
+	socklen_t tam_direccion = sizeof(struct sockaddr_in);
 
-	// Aceptamos un nuevo cliente
-	int socket_cliente;
-	log_info(logger, "Se conecto un cliente!");
+	int socket_cliente = accept(socket_servidor, (struct sockaddr*) &dir_cliente, &tam_direccion);
+
+	if (socket_cliente == -1) {
+		log_error(logger, "Error al aceptar cliente");
+		return -1;
+	}
+
+	log_info(logger, "Se conectó un cliente!");
 
 	return socket_cliente;
 }
+
 
 int recibir_operacion(int socket_cliente)
 {
@@ -70,6 +80,7 @@ void recibir_mensaje(int socket_cliente)
 	int size;
 	char* buffer = recibir_buffer(&size, socket_cliente);
 	log_info(logger, "Me llego el mensaje %s", buffer);
+	printf("Me llego esto : %s",buffer);
 	free(buffer);
 }
 

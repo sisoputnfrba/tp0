@@ -9,6 +9,8 @@ int main(void) {
 
 	t_list* lista;
 	while (1) {
+		log_info(logger, "Entre en el while !");
+
 		int cod_op = recibir_operacion(cliente_fd);
 		switch (cod_op) {
 		case MENSAJE:
