@@ -1,5 +1,5 @@
 # Libraries
-LIBS=commons pthread readline m
+LIBS=commons pthread readline m crypto
 
 # Compiler flags
 CDEBUG=-g -Wall -DDEBUG -fdiagnostics-color=always
